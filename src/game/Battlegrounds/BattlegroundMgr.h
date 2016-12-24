@@ -39,6 +39,8 @@ struct CreateBattlegroundData
     uint32 scriptId;
 };
 
+#define BATTLEGROUND_ARENA_POINT_DISTRIBUTION_DAY   86400   // seconds in a day
+
 struct GroupQueueInfo;
 
 // pussywizard
@@ -114,6 +116,8 @@ class BattlegroundMgr
         static BattlegroundTypeId WeekendHolidayIdToBGType(HolidayIds holiday);
         static bool IsBGWeekend(BattlegroundTypeId bgTypeId);
 
+		uint64 GetNextArenaDistributionTime() const {return m_NextAutoDistributionTime;}
+		
         PvPDifficultyEntry randomBgDifficultyEntry;
 
         uint32 GetRatingDiscardTimer()  const;
@@ -145,8 +149,10 @@ class BattlegroundMgr
         uint32 m_lastClientVisibleInstanceId;
         uint32 m_NextPeriodicQueueUpdateTime;
         time_t m_NextAutoDistributionTime;
+		uint32 m_AutoDistributionTimeChecker;
         bool   m_ArenaTesting;
         bool   m_Testing;
+		bool   m_ApAnnounce;
         BattleMastersMap mBattleMastersMap;
 };
 

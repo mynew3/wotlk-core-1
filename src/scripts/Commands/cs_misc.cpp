@@ -27,6 +27,7 @@
 #include "GroupMgr.h"
 #include "BattlegroundMgr.h"
 #include "MapManager.h"
+#include <fstream>
 
 class misc_commandscript : public CommandScript
 {
@@ -62,7 +63,7 @@ public:
             { "gps",                SEC_MODERATOR,          false, &HandleGPSCommand,                   "" },
             { "aura",               SEC_GAMEMASTER,         false, &HandleAuraCommand,                  "" },
             { "unaura",             SEC_GAMEMASTER,         false, &HandleUnAuraCommand,                "" },
-            { "appear",             SEC_MODERATOR,          false, &HandleAppearCommand,                "" },
+            { "goname",             SEC_MODERATOR,          false, &HandleGonameCommand,                "" },
             { "summon",             SEC_GAMEMASTER,         false, &HandleSummonCommand,                "" },
             { "groupsummon",        SEC_GAMEMASTER,         false, &HandleGroupSummonCommand,           "" },
             { "commands",           SEC_PLAYER,             true,  &HandleCommandsCommand,              "" },
@@ -79,6 +80,7 @@ public:
             { "saveall",            SEC_GAMEMASTER,         true,  &HandleSaveAllCommand,               "" },
             { "kick",               SEC_GAMEMASTER,         true,  &HandleKickPlayerCommand,            "" },
             { "unstuck",            SEC_GAMEMASTER,         true,  &HandleUnstuckCommand,               "" },
+			{ "home",               SEC_PLAYER,             false, &HandleHomeCommand,                  "" },
             { "taxicheat",          SEC_GAMEMASTER,         false, &HandleTaxiCheatCommand,             "" },
             { "linkgrave",          SEC_ADMINISTRATOR,      false, &HandleLinkGraveCommand,             "" },
             { "neargrave",          SEC_GAMEMASTER,         false, &HandleNearGraveCommand,             "" },
@@ -113,7 +115,8 @@ public:
             { "unbindsight",        SEC_ADMINISTRATOR,      false, HandleUnbindSightCommand,            "" },
             { "playall",            SEC_GAMEMASTER,         false, HandlePlayAllCommand,                "" },
             { "skirmish",           SEC_ADMINISTRATOR,      false, HandleSkirmishCommand,               "" },
-            { "mailbox",            SEC_MODERATOR,          false, &HandleMailBoxCommand,               "" }
+            { "mailbox",            SEC_MODERATOR,          false, &HandleMailBoxCommand,               "" },
+			{ "ap",            		SEC_PLAYER,             false, &HandleArenaPointCommand,            "" }
         };
         return commandTable;
     }
@@ -522,7 +525,7 @@ public:
         return true;
     }
     // Teleport to Player
-    static bool HandleAppearCommand(ChatHandler* handler, char const* args)
+    static bool HandleGonameCommand(ChatHandler* handler, char const* args)
     {
         Player* target;
         uint64 targetGuid;
@@ -1135,6 +1138,37 @@ public:
         return true;
     }
 
+	static bool HandleHomeCommand(ChatHandler* handler, char const* args)
+	{
+		Player* player = handler->GetSession()->GetPlayer();
+		
+			if (player->IsInCombat())
+			{
+				handler->SendSysMessage(LANG_YOU_IN_COMBAT);
+				handler->SetSentErrorMessage(true);
+				return false;
+			}
+			
+			if (player->IsInFlight())
+			{
+				handler->SendSysMessage(LANG_YOU_IN_FLIGHT);
+				handler->SetSentErrorMessage(true);
+				return false;
+			}
+			
+			if (player->IsMounted())
+			{
+				handler->SendSysMessage(LANG_YOU_IN_FLIGHT);
+				handler->SetSentErrorMessage(true);
+				return false;
+			}
+			
+            // Stuck
+			player->TeleportTo(player->m_homebindMapId, player->m_homebindX, player->m_homebindY, player->m_homebindZ, player->GetOrientation());
+			player->CastSpell(player, 41232, false);
+            return true;
+	}
+	
     static bool HandleUnstuckCommand(ChatHandler* handler, char const* args)
     {
         //No args required for players
@@ -3150,6 +3184,14 @@ public:
         handler->GetSession()->SendShowMailBox(player->GetGUID());
         return true;
     }
+	
+	static bool HandleArenaPointCommand(ChatHandler* handler, char const* /*args*/)
+	{
+		std::string nextFlushStr = secsToTimeString(sBattlegroundMgr->GetNextArenaDistributionTime() - sWorld->GetGameTime());
+			if (sWorld->getBoolConfig(CONFIG_ARENA_AUTO_DISTRIBUTE_POINTS))
+				handler->PSendSysMessage("Next arena flush: %s", nextFlushStr.c_str());
+				return true;
+	}
 };
 
 void AddSC_misc_commandscript()
