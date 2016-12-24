@@ -35,39 +35,24 @@
 #        Important:   LogsDir needs to be quoted, as the string might contain space characters.
 #                     Logs directory must exists, or log file creation will be disabled.
 #        Default:     "" - (Log files will be stored in the current path)
-
-LogsDir = ""
-
 #
 #    MaxPingTime
 #        Description: Time (in minutes) between database pings.
 #        Default:     30
-
-MaxPingTime = 30
-
 #
 #    RealmServerPort
 #        Description: TCP port to reach the auth server.
 #        Default:     3724
-
-RealmServerPort = 3724
-
 #
 #
 #    BindIP
 #        Description: Bind auth server to IP/hostname
 #        Default:     "0.0.0.0" - (Bind to all IPs on the system)
-
-BindIP = "0.0.0.0"
-
 #
 #    PidFile
 #        Description: Auth server PID file.
 #        Example:     "./authserver.pid"  - (Enabled)
 #        Default:     ""                  - (Disabled)
-
-PidFile = ""
-
 #
 #    LogLevel
 #        Description: Server console level of logging
@@ -75,17 +60,11 @@ PidFile = ""
 #                     1 - (Basic)
 #                     2 - (Detail)
 #                     3 - (Full/Debug)
-
-LogLevel = 0
-
 #
 #    LogFile
 #        Description: Log file for main server log.
 #        Default:     "Auth.log" - (Enabled)
 #                     ""           - (Disabled)
-
-LogFile = "Auth.log"
-
 #
 #    Debug Log Mask
 #        Description: Bitmask that determines which debug log output (level 3)
@@ -99,34 +78,22 @@ LogFile = "Auth.log"
 #                       For more info see enum DebugLogFilters in Log.h
 #
 #             Default: 0 (nothing)
-
-DebugLogMask = 64
-
 #
 #    SQLDriverLogFile
 #        Description: Log file for SQL driver events.
 #        Example:     "SQLDriver.log" - (Enabled)
 #        Default:      ""             - (Disabled)
-
-SQLDriverLogFile = ""
-
 #
 #    SQLDriverQueryLogging
 #        Description: Log SQL queries to the SQLDriverLogFile and console.
 #        Default:     0 - (Disabled, Query errors only)
 #                     1 - (Enabled, Full query logging - may have performance impact)
-
-SQLDriverQueryLogging = 0
-
 #
 #    LogTimestamp
 #        Description: Append timestamp to the server log file name.
 #                     Logname_YYYY-MM-DD_HH-MM-SS.Ext for Logname.Ext
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
-
-LogTimestamp = 0
-
 #
 #    LogFileLevel
 #        Description: Server file level of logging
@@ -134,9 +101,6 @@ LogTimestamp = 0
 #                     1 - (Basic)
 #                     2 - (Detail)
 #                     3 - (Full/Debug)
-
-LogFileLevel = 0
-
 #
 #    LogColors
 #        Description: Colors for log messages (Format: "normal basic detail debug").
@@ -157,17 +121,11 @@ LogFileLevel = 0
 #                     14 - White
 #        Example:     "13 11 9 5" - (Enabled)
 #        Default:     ""          - (Disabled)
-
-LogColors = ""
-
 #
 #    EnableLogDB
 #        Description: Write log messages to database (LogDatabaseInfo).
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
-
-EnableLogDB = 0
-
 #
 #    DBLogLevel
 #        Description: Log level of databases logging.
@@ -175,9 +133,6 @@ EnableLogDB = 0
 #                     0 - (Minimum)
 #                     2 - (Detail)
 #                     3 - (Full/Debug)
-
-DBLogLevel = 1
-
 #
 #    UseProcessors
 #        Description: Processors mask for Windows and Linux based multi-processor systems.
@@ -185,53 +140,57 @@ DBLogLevel = 1
 #                     1 - 1st CPU only, 2 - 2nd CPU only, 3 - 1st and 2nd CPU, because 1 | 2 is 3
 #        Default:     0  - (Selected by OS)
 #                     1+ - (Bit mask value of selected processors)
-
-UseProcessors = 0
-
 #
 #    ProcessPriority
 #        Description: Process priority setting for Windows and Linux based systems.
 #        Details:     On Linux, a nice value of -15 is used. (requires superuser). On Windows, process is set to HIGH class.
 #        Default:     0 - (Normal)
 #                     1 - (High)
-
-ProcessPriority = 0
-
 #
 #    RealmsStateUpdateDelay
 #        Description: Time (in seconds) between realm list updates.
 #        Default:     20 - (Enabled)
 #                     0  - (Disabled)
-
-RealmsStateUpdateDelay = 20
-
 #
 #    WrongPass.MaxCount
 #        Description: Number of login attemps with wrong password before the account or IP will be
 #                     banned.
 #        Default:     0  - (Disabled)
 #                     1+ - (Enabled)
-
-WrongPass.MaxCount = 0
-
 #
 #    WrongPass.BanTime
 #        Description: Time (in seconds) for banning account or IP for invalid login attempts.
 #        Default:     600 - (10 minutes)
 #                     0   - (Permanent ban)
-
-WrongPass.BanTime = 600
-
 #
 #    WrongPass.BanType
 #        Description: Ban type for invalid login attempts.
 #        Default:     0 - (Ban IP)
 #                     1 - (Ban Account)
-
-WrongPass.BanType = 0
-
 #
 ###################################################################################################
+
+LogsDir = ""
+MaxPingTime = 30
+RealmServerPort = 3724
+BindIP = "0.0.0.0"
+PidFile = ""
+LogLevel = 0
+LogFile = "Auth.log"
+DebugLogMask = 64
+SQLDriverLogFile = ""
+SQLDriverQueryLogging = 0
+LogTimestamp = 0
+LogFileLevel = 0
+LogColors = ""
+EnableLogDB = 0
+DBLogLevel = 1
+UseProcessors = 0
+ProcessPriority = 0
+RealmsStateUpdateDelay = 20
+WrongPass.MaxCount = 0
+WrongPass.BanTime = 600
+WrongPass.BanType = 0
 
 ###################################################################################################
 # MYSQL SETTINGS
@@ -245,16 +204,13 @@ WrongPass.BanType = 0
 #                     ".;/path/to/unix_socket;username;password;database" - (use Unix sockets on
 #                                                                           Unix/Linux)
 #        Default:     "127.0.0.1;3306;root;root;auth"
-
-LoginDatabaseInfo = "127.0.0.1;3306;root;root;auth"
-
 #
 #    LoginDatabase.WorkerThreads
 #        Description: The amount of worker threads spawned to handle asynchronous (delayed) MySQL
 #                     statements. Each worker thread is mirrored with its own connection to the
 #        Default:     1
-
-LoginDatabase.WorkerThreads = 1
-
 #
 ###################################################################################################
+
+LoginDatabaseInfo = "127.0.0.1;3306;root;root;auth"
+LoginDatabase.WorkerThreads = 1
