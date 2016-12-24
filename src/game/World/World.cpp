@@ -1231,6 +1231,11 @@ void World::LoadConfigSettings(bool reload)
         m_timers[WUPDATE_AUTOBROADCAST].SetInterval(m_int_configs[CONFIG_AUTOBROADCAST_INTERVAL]);
         m_timers[WUPDATE_AUTOBROADCAST].Reset();
     }
+	
+	// Server AutoRestart
+	m_int_configs[CONFIG_AUTORESTART_TIMER] = sConfigMgr->GetIntDefault("Autorestart.Timer", 0);
+	if (m_int_configs[CONFIG_AUTORESTART_TIMER] < 0)
+		m_int_configs[CONFIG_AUTORESTART_TIMER] = 0;
 
     // MySQL ping time interval
     m_int_configs[CONFIG_DB_PING_INTERVAL] = sConfigMgr->GetIntDefault("MaxPingTime", 30);
@@ -1854,6 +1859,12 @@ void World::SetInitialWorldSettings()
     sLog->outString();
     sLog->outError("WORLD: World initialized in %u minutes %u seconds", (startupDuration / 60000), ((startupDuration % 60000) / 1000));
     sLog->outString();
+
+	// Server AutoRestart
+	if (sWorld->getIntConfig(CONFIG_AUTORESTART_TIMER) != 0)
+	{
+		sWorld->ShutdownServ(sWorld->getIntConfig(CONFIG_AUTORESTART_TIMER), SHUTDOWN_MASK_RESTART, RESTART_EXIT_CODE);
+	}
 
     // possibly enable db logging; avoid massive startup spam by doing it here.
     if (sConfigMgr->GetBoolDefault("EnableLogDB", false))

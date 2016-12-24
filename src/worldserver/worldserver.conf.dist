@@ -2395,6 +2395,13 @@ CharDelete.KeepDays = 30
 #        Description: Disallow overwriting existing files with PlayerDump
 #        Default:     1
 #
+#	Autorestart.Timer
+#		Автоматический рестарт сервера по таймеру. Работает при запуске через рестартер, в противном случаи выключает сервер (вместо рестарта).
+#		Default: 0 - disable
+#				 60 - рестарт через 60 секунд после запуска сервера
+#				 3600 - рестарт через 1 час после запуска сервера
+#				 86400 - рестарт через 24 часа после запуска
+#
 ###################################################################################################
 
 PlayerStart.AllReputation = 0
@@ -2418,3 +2425,4 @@ LevelReq.Auction = 1
 LevelReq.Mail = 1
 PlayerDump.DisallowPaths = 1
 PlayerDump.DisallowOverwrite = 1
+Autorestart.Timer = 0
