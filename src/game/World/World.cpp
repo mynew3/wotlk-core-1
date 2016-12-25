@@ -1258,6 +1258,11 @@ void World::LoadConfigSettings(bool reload)
 
     m_int_configs[CONFIG_BIRTHDAY_TIME] = sConfigMgr->GetIntDefault("BirthdayTime", 1222964635);
 
+    m_bool_configs[CONFIG_ENABLE_GANKING_PENALTY] = sConfigMgr->GetBoolDefault("PVP.EnableGankingPenalty", false);
+    m_int_configs[CONFIG_GANKING_PENALTY_EXPIRE] = sConfigMgr->GetIntDefault("PVP.GankingPenaltyExpireTime", 600000);
+    m_int_configs[CONFIG_GANKING_KILLS_ALERT] = sConfigMgr->GetIntDefault("PVP.GankingPenaltyKillsAlert", 10);
+    rate_values[CONFIG_GANKING_PENALTY_PER_KILL] = sConfigMgr->GetFloatDefault("PVP.GankingPenaltyPerKill", 0.1);
+
     // call ScriptMgr if we're reloading the configuration
     sScriptMgr->OnAfterConfigLoad(reload);
 }

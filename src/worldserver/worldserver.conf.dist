@@ -2426,3 +2426,18 @@ LevelReq.Mail = 1
 PlayerDump.DisallowPaths = 1
 PlayerDump.DisallowOverwrite = 1
 Autorestart.Timer = 0
+
+###################################################################################################
+#   Ganking penalty system
+#    
+#   PVP.EnableGankingPenalty     = 1         ( on / off )
+#   PVP.GankingPenaltyExpireTime = 600       ( time in secs that need to pass after kill, to penalty wear off )
+#   PVP.GankingPenaltyKillsAlert = 10        ( consecutive kills count after which GM will receive notice )
+#   PVP.GankingPenaltyPerKill    = 0.1       ( per kill honor penalty )
+#
+###################################################################################################
+
+PVP.EnableGankingPenalty     = 1
+PVP.GankingPenaltyExpireTime = 600
+PVP.GankingPenaltyKillsAlert = 10
+PVP.GankingPenaltyPerKill    = 0.1

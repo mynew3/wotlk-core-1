@@ -121,6 +121,8 @@ typedef UNORDERED_MAP<uint32, PlayerTalent*> PlayerTalentMap;
 typedef UNORDERED_MAP<uint32, PlayerSpell*> PlayerSpellMap;
 typedef std::list<SpellModifier*> SpellModList;
 
+typedef UNORDERED_MAP<uint64, std::pair<uint32, uint64>> ConsecutiveKillsMap;
+
 typedef std::list<uint64> WhisperListContainer;
 
 struct SpellCooldown
@@ -2930,6 +2932,11 @@ class Player : public Unit, public GridObject<Player>
         uint32 m_timeSyncTimer;
         uint32 m_timeSyncClient;
         uint32 m_timeSyncServer;
+        
+        void AddConsecutiveKill(uint64 guid);
+        uint32 GetConsecutiveKillsCount(uint64 guid);
+        void UpdateConsecutiveKills();
+        ConsecutiveKillsMap m_consecutiveKills;
 
         InstanceTimeMap _instanceResetTimes;
         uint32 _pendingBindId;
