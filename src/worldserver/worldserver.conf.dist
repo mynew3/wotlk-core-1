@@ -448,6 +448,11 @@ PersistentCharacterCleanFlags = 0
 #        Default:     "RA.log" - (Enabled)
 #                     ""       - (Disabled)
 #
+#    CheatLogFile
+#        Log file of passive anticheat
+#        Default: "cheat.log"
+#                 "" - Empty name for disable
+#
 #    ArenaLogFile
 #        Description: Log file for arena fights and arena team creations.
 #        Example:     "Arena.log" - (Enabled)
@@ -604,6 +609,7 @@ GmLogFile = "GM.log"
 GmLogTimestamp = 0
 GmLogPerAccount = 0
 RaLogFile = "RA.log"
+CheatLogFile = "cheat.log"
 ArenaLogFile = ""
 ArenaLog.ExtendedInfo = 0
 SQLDeveloperLogFile = ""

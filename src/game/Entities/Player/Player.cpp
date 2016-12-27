@@ -7319,9 +7319,7 @@ bool Player::RewardHonor(Unit* uVictim, uint32 groupsize, int32 honor, bool awar
                     stream << "Possible HK / Honor farming exploit (killer: " << GetName() << ", victim: " << victim->GetName() << ") kills count: " << killsCount;
         
                     sWorld->SendGMText(LANG_POSSIBLE_CHEAT, stream.str().c_str(), GetName().c_str(), GetName().c_str());
-                    /* Записывание в логи (убрано, не понимаю как работают логи)
-					sLog->outDebug(LOG_..._..., "%s", stream.str().c_str());
-					*/
+					sLog->outCheat("%s", stream.str().c_str());
                 }
 
                 if (honor_f <= 0.0f)

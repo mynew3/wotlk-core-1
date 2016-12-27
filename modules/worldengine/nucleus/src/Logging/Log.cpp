@@ -20,7 +20,7 @@ extern LoginDatabaseWorkerPool LoginDatabase;
 
 Log::Log() :
     raLogfile(NULL), logfile(NULL), gmLogfile(NULL), charLogfile(NULL),
-    dberLogfile(NULL), chatLogfile(NULL), sqlLogFile(NULL), sqlDevLogFile(NULL), miscLogFile(NULL),
+    dberLogfile(NULL), chatLogfile(NULL), sqlLogFile(NULL), sqlDevLogFile(NULL), miscLogFile(NULL), cheatLogFile(NULL),
     m_gmlog_per_account(false), m_enableLogDB(false), m_colored(false)
 {
     Initialize();
@@ -63,6 +63,10 @@ Log::~Log()
     if (miscLogFile != NULL)
         fclose(miscLogFile);
     miscLogFile = NULL;
+
+    if (cheatLogFile != NULL)
+        fclose(cheatLogFile);
+    cheatLogFile = NULL;
 }
 
 void Log::SetLogLevel(char *Level)
@@ -146,6 +150,7 @@ void Log::Initialize()
     sqlLogFile = openLogFile("SQLDriverLogFile", NULL, "a");
     sqlDevLogFile = openLogFile("SQLDeveloperLogFile", NULL, "a");
     miscLogFile = fopen((m_logsDir+"Misc.log").c_str(), "a");
+    cheatLogFile = openLogFile("CheatLogFile", NULL, "a");
 
     // Main log file settings
     m_logLevel     = sConfigMgr->GetIntDefault("LogLevel", LOGL_NORMAL);
@@ -1005,6 +1010,23 @@ void Log::outMisc(const char * str, ...)
         vfprintf(miscLogFile, str, ap);
         fprintf(miscLogFile, "\n" );
         fflush(miscLogFile);
+        va_end(ap);
+    }
+}
+
+void Log::outCheat(const char * str, ...)
+{
+    if (!str)
+        return;
+
+    if (cheatLogFile)
+    {
+        outTimestamp(cheatLogFile);
+        va_list ap;
+        va_start(ap, str);
+        vfprintf(cheatLogFile, str, ap);
+        fprintf(cheatLogFile, "\n" );
+        fflush(cheatLogFile);
         va_end(ap);
     }
 }

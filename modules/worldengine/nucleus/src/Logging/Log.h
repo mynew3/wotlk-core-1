@@ -59,6 +59,7 @@ enum LogTypes
     LOG_TYPE_CHAT   = 10,
     LOG_TYPE_PERF   = 11,
     LOG_TYPE_MULTITH= 12,
+    LOG_TYPE_CHEAT  = 13,
     MAX_LOG_TYPES
 };
 
@@ -128,6 +129,7 @@ class Log
         void outRemote(const char * str, ...)                   ATTR_PRINTF(2, 3);
         void outSQLDriver(const char* str, ...)                 ATTR_PRINTF(2, 3);
         void outMisc(const char * str, ...)                     ATTR_PRINTF(2, 3); // pussywizard
+        void outCheat(const char * str, ...)                    ATTR_PRINTF(2, 3);
         void outCharDump(const char * str, uint32 account_id, uint32 guid, const char * name);
 
         static void outTimestamp(FILE* file);
@@ -157,6 +159,7 @@ class Log
         FILE* sqlLogFile;
         FILE* sqlDevLogFile;
         FILE* miscLogFile;
+        FILE* cheatLogFile;
 
         // cache values for after initilization use (like gm log per account case)
         std::string m_logsDir;
