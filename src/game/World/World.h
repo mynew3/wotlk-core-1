@@ -714,6 +714,15 @@ class World
             return index < INT_CONFIG_VALUE_COUNT ? m_int_configs[index] : 0;
         }
 
+		// movement anticheat
+		static bool GetEnableMvAnticheat() { return m_EnableMvAnticheat; }
+		static uint32 GetTeleportToPlaneAlarms() { return m_TeleportToPlaneAlarms; }
+		static uint32 GetMistimingDelta() { return m_MistimingDelta; }
+		static uint32 GetMistimingAlarms() { return m_MistimingAlarms; }
+		static uint32 GetTeleportToPlanePenalty() { return m_TeleportToPlanePenalty; }
+		static uint32 GetMovementPenalty() { return m_MovementPenalty; }
+		// end movement anticheat
+
         void setWorldState(uint32 index, uint64 value);
         uint64 getWorldState(uint32 index) const;
         void LoadWorldStates();
@@ -815,6 +824,14 @@ class World
         time_t mail_expire_check_timer;
         uint32 m_updateTime, m_updateTimeSum;
         static uint32 m_gameMSTime;
+
+		// movement anticheat enable flag
+		static bool m_EnableMvAnticheat;
+		static uint32 m_TeleportToPlaneAlarms;
+		static uint32 m_TeleportToPlanePenalty;
+		static uint32 m_MovementPenalty;
+		static uint32 m_MistimingDelta;
+		static uint32 m_MistimingAlarms;
 
         SessionMap m_sessions;
         SessionMap m_offlineSessions;

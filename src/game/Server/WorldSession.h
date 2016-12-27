@@ -945,6 +945,8 @@ class WorldSession
 
         bool CanUseBank(uint64 bankerGUID = 0) const;
 
+		bool movementAntiCheat(Player* plrMover, MovementInfo& movementInfo, Unit* mover, uint16 opcode);
+
         // EnumData helpers
         bool IsLegitCharacterForAccount(uint32 lowGUID)
         {
