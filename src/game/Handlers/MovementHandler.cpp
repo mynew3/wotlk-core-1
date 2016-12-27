@@ -24,6 +24,15 @@
 #include "Chat.h"
 #include "BattlegroundMgr.h"
 #include "ScriptMgr.h"
+/* Movement anticheat defines */
+#include "World.h"
+#include "WardenWin.h"
+// #include "Appender.h" not found
+
+ // Movement anticheat defines
+ //#define ANTICHEAT_DEBUG
+#define ANTICHEAT_EXCEPTION_INFO
+ /* End Movement anticheat defines */
 
 #define MOVEMENT_PACKET_TIME_DELAY 0
 
@@ -296,7 +305,13 @@ void WorldSession::HandleMovementOpcodes(WorldPacket & recvData)
 
     ASSERT(mover != NULL);                      // there must always be a mover
 
-    Player* plrMover = mover->ToPlayer();
+	Player* plrMover = mover->GetTypeId() == TYPEID_PLAYER ? (Player*)mover : NULL;
+	Vehicle* vehMover = mover->GetVehicleKit();
+	if (vehMover)
+		if (mover->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED))
+			if (Unit* charmer = mover->GetCharmer())
+				if (charmer->GetTypeId() == TYPEID_PLAYER)
+					plrMover = (Player*)charmer;
 
     // ignore, waiting processing in WorldSession::HandleMoveWorldportAckOpcode and WorldSession::HandleMoveTeleportAck
     if (plrMover && plrMover->IsBeingTeleported())
@@ -349,43 +364,59 @@ void WorldSession::HandleMovementOpcodes(WorldPacket & recvData)
         }
 
         // if we boarded a transport, add us to it
-        if (plrMover)
+		if (plrMover && !plrMover->m_transport)
         {
-            if (!plrMover->GetTransport())
-            {
-                if (Transport* transport = plrMover->GetMap()->GetTransport(movementInfo.transport.guid))
-                {
-                    plrMover->m_transport = transport;
-                    transport->AddPassenger(plrMover);
-                }
-            }
-            else if (plrMover->GetTransport()->GetGUID() != movementInfo.transport.guid)
-            {
-                bool foundNewTransport = false;
-                plrMover->m_transport->RemovePassenger(plrMover);
-                if (Transport* transport = plrMover->GetMap()->GetTransport(movementInfo.transport.guid))
-                {
-                    foundNewTransport = true;
-                    plrMover->m_transport = transport;
-                    transport->AddPassenger(plrMover);
-                }
+			if (!plrMover->m_temp_transport)
+			{
+				if (!plrMover->GetTransport())
+				{
+					if (Transport* transport = plrMover->GetMap()->GetTransport(movementInfo.transport.guid))
+					{
+						plrMover->m_transport = transport;
+						transport->AddPassenger(plrMover);
+					}
+				}
+				else if (plrMover->GetTransport()->GetGUID() != movementInfo.transport.guid)
+				{
+					bool foundNewTransport = false;
+					plrMover->m_transport->RemovePassenger(plrMover);
+					if (Transport* transport = plrMover->GetMap()->GetTransport(movementInfo.transport.guid))
+					{
+						foundNewTransport = true;
+						plrMover->m_transport = transport;
+						transport->AddPassenger(plrMover);
+					}
 
-                if (!foundNewTransport)
-                {
-                    plrMover->m_transport = NULL;
-                    movementInfo.transport.Reset();
-                }
-            }
+					if (!foundNewTransport)
+					{
+						plrMover->m_transport = NULL;
+						movementInfo.transport.Reset();
+					}
+				}
+			}
+
+			if (Map *tempMap = mover->GetMap())
+				if (GameObject *tempTransport = tempMap->GetGameObject(movementInfo.transport.guid))
+					if (tempTransport->IsTransport())
+						plrMover->m_temp_transport = tempTransport;
         }
 
-        if (!mover->GetTransport() && !mover->GetVehicle())
-            movementInfo.flags &= ~MOVEMENTFLAG_ONTRANSPORT;
+		if ((!plrMover && !mover->GetTransport() && !mover->GetVehicle()) || (plrMover && !plrMover->m_vehicle && !plrMover->m_transport && !plrMover->m_temp_transport))
+		{
+			GameObject* go = mover->GetMap()->GetGameObject(movementInfo.transport.guid);
+			if (!go || go->GetGoType() != GAMEOBJECT_TYPE_TRANSPORT)
+				movementInfo.RemoveMovementFlag(MOVEMENTFLAG_ONTRANSPORT);
+		}
     }
-    else if (plrMover && plrMover->GetTransport()) // if we were on a transport, leave
+    else if (plrMover && (plrMover->m_transport || plrMover->m_temp_transport)) // if we were on a transport, leave
     {
-        plrMover->m_transport->RemovePassenger(plrMover);
-        plrMover->m_transport = NULL;
-        movementInfo.transport.Reset();
+		if (plrMover->m_transport)
+		{
+			plrMover->m_transport->RemovePassenger(plrMover);
+			plrMover->m_transport = NULL;
+		}
+		plrMover->m_temp_transport = NULL;
+		movementInfo.transport.Reset();
     }
 
     if (plrMover && ((movementInfo.flags & MOVEMENTFLAG_SWIMMING) != 0) != plrMover->IsInWater())
@@ -453,7 +484,14 @@ void WorldSession::HandleMovementOpcodes(WorldPacket & recvData)
     // fall damage generation (ignore in flight case that can be triggered also at lags in moment teleportation to another map).
     // Xinef: moved it here, previously StopMoving function called when player died relocated him to last saved coordinates (which were in air)
     if (opcode == MSG_MOVE_FALL_LAND && plrMover && !plrMover->IsInFlight() && (!plrMover->GetTransport() || plrMover->GetTransport()->IsStaticTransport()))
-        plrMover->HandleFall(movementInfo);
+	{
+		// movement anticheat
+		plrMover->m_anti_JumpCount = 0;
+		plrMover->m_anti_JumpBaseZ = 0;
+		if (!vehMover)
+			plrMover->HandleFall(movementInfo);
+	}
+
     // Xinef: interrupt parachutes upon falling or landing in water
     if (opcode == MSG_MOVE_FALL_LAND || opcode == MSG_MOVE_START_SWIM)
         mover->RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_LANDING); // Parachutes
