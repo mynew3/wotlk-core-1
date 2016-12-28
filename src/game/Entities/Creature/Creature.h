@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016+     AzerothCore <www.azerothcore.org>, released under GNU GPL v2 license: http://github.com/azerothcore/azerothcore-wotlk/LICENSE-GPL2
- * Copyright (C) 2008-2016 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2014-2017 SWPCore <http://www.wowswp.com/>
+ * Copyright (C) 2008-2017 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  */
 
-#ifndef AZEROTHCORE_CREATURE_H
-#define AZEROTHCORE_CREATURE_H
+#ifndef SWPCORE_CREATURE_H
+#define SWPCORE_CREATURE_H
 
 #include "Common.h"
 #include "Unit.h"

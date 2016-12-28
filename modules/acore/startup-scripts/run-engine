@@ -29,7 +29,7 @@ function checkStatus() {
     fi
 
     #
-    # This is a specific check for Azeroth Core in case of screen failure
+    # This is a specific check for SWP Core in case of screen failure
     # It is possible since same binary file cannot be launched with same configuration file
     # This is an extra check
     #

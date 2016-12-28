@@ -1,3 +1,6 @@
+/*
+ * Copyright (C) 2014-2017 SWPCore <http://www.wowswp.com/>
+*/
 
 #include "ScriptMgr.h"
 #include "ObjectMgr.h"

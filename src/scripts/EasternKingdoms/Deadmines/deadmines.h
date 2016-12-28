@@ -1,5 +1,5 @@
 /*
- * Originally written by Xinef - Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: http://github.com/azerothcore/azerothcore-wotlk/LICENSE-AGPL
+ * Copyright (C) 2014-2017 SWPCore <http://www.wowswp.com/>
 */
 
 #ifndef DEF_DEADMINES_H

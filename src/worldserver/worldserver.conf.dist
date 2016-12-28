@@ -55,7 +55,7 @@
 #    DataDir
 #        Description: Data directory setting.
 #        Important:   DataDir needs to be quoted, as the string might contain space characters.
-#        Example:     "/home/youruser/azeroth-server/data"
+#        Example:     "/home/youruser/swp-server/data"
 #        Default:     "."
 #
 #    LogsDir
@@ -1045,8 +1045,8 @@ ChatLogs.BattleGround = 0
 #    Motd
 #        Description: Message of the Day, displayed at login.
 #                     Use '@' for a newline and be sure to escape special characters.
-#        Example:     "Welcome to John\'s Server@This server runs on AzerothCore."
-#        Default:     "Welcome to an AzerothCore server."
+#        Example:     "Welcome to John\'s Server@This server runs on SWPCore."
+#        Default:     "Welcome to an SWPCore server."
 #
 #    Server.LoginInfo
 #        Description: Display core version (.server info) on login.

@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2016+     AzerothCore <www.azerothcore.org>, released under GNU GPL v2 license: http://github.com/azerothcore/azerothcore-wotlk/LICENSE-GPL2
- * Copyright (C) 2008-2016 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2014-2017 SWPCore <http://www.wowswp.com/>
+ * Copyright (C) 2008-2017 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  */
 
@@ -117,20 +117,20 @@ int Master::Run()
     sLog->outString("%s (worldserver-daemon)", _FULLVERSION);
     sLog->outString("<Ctrl-C> to stop.\n");
 
-    sLog->outString("   █████╗ ███████╗███████╗██████╗  ██████╗ ████████╗██╗  ██╗");           
-    sLog->outString("  ██╔══██╗╚══███╔╝██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝██║  ██║");           
-    sLog->outString("  ███████║  ███╔╝ █████╗  ██████╔╝██║   ██║   ██║   ███████║");           
-    sLog->outString("  ██╔══██║ ███╔╝  ██╔══╝  ██╔══██╗██║   ██║   ██║   ██╔══██║");           
-    sLog->outString("  ██║  ██║███████╗███████╗██║  ██║╚██████╔╝   ██║   ██║  ██║");           
-    sLog->outString("  ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝");                                                                
-    sLog->outString("                                ██████╗ ██████╗ ██████╗ ███████╗");
+    sLog->outString("   ███████╗ ██    ████═╗  ██╗ ███████╗");           
+    sLog->outString("  ███  ╔══╝ ███  ██╔═██║ ███║ ██╔══██║");           
+    sLog->outString("    ███╚══╗  ███ ██║ ██║███╔╝ ██████╔╝");           
+    sLog->outString("      ███ ║    ████║ ████╔═╝  ██╔═══╝");           
+    sLog->outString(" ███████╔═╝     ██╔╝  ██ ║    ██║");           
+    sLog->outString(" ╚══════╝       ╚═╝   ╚══╝    ╚═╝");                                                                  
+    sLog->outString("                                ██████╗ ██████╗  ██████╗ ███████╗");
     sLog->outString("                                ██╔════╝██╔═══██╗██╔══██╗██╔════╝");
     sLog->outString("                                ██║     ██║   ██║██████╔╝█████╗");  
     sLog->outString("                                ██║     ██║   ██║██╔══██╗██╔══╝");  
     sLog->outString("                                ╚██████╗╚██████╔╝██║  ██║███████╗");
     sLog->outString("                                 ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝\n");
 
-    sLog->outString("  	  AzerothCore 3.3.5a  -  www.azerothcore.org\n");
+    sLog->outString("  	  SWPCore 3.3.5a  -  www.wowswp.com\n");
 
     /// worldserver PID file creation
     std::string pidFile = sConfigMgr->GetStringDefault("PidFile", "");
